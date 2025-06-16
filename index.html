@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>naXan – Neueste Videos</title>
   <link rel="icon" type="image/png" href="https://yt3.ggpht.com/ytc/AKedOLQ0Ep8WqJHsSVt1WqF_iVwQfLpkRGg6o2exVGEV=s88-c-k-c0x00ffffff-no-rj" />
   <style>
@@ -22,6 +23,7 @@
       height: 80px;
       border-radius: 50%;
       vertical-align: middle;
+      object-fit: cover;
     }
     header h1 {
       display: inline-block;
@@ -60,6 +62,7 @@
       border-radius: 8px 8px 0 0;
       cursor: pointer;
       display: block;
+      object-fit: cover;
     }
     .video p {
       margin: 8px 10px;
@@ -84,6 +87,21 @@
     }
     a:hover {
       text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media only screen and (max-width: 600px) {
+      body {
+        font-size: 14px;
+        padding: 10px;
+      }
+      .gallery {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .video {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -116,7 +134,16 @@
     .then(data => {
       const gallery = document.getElementById('video-gallery');
       data.items.forEach(item => {
-        const videoId = item.link.split('v=')[1];
+        // Robustes Herausfiltern der Video-ID
+        let videoId = '';
+        if (item.link.includes('v=')) {
+          videoId = item.link.split('v=')[1];
+          if(videoId.includes('&')) videoId = videoId.split('&')[0];
+        } else {
+          // Fallback: letzte URL-Komponente
+          const parts = item.link.split('/');
+          videoId = parts[parts.length - 1];
+        }
         const title = item.title;
         const thumb = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
         const videoUrl = item.link;
