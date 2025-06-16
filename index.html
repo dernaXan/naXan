@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>naXan</title>
+<title>naXan Videos mit RSS2JSON</title>
 <link rel="icon" href="E65170CF-2C2A-4301-9911-A7C1D40005E0.png" type="image/png" />
 <style>
   body {
@@ -114,9 +114,9 @@
 </div>
 
 <script>
-// Channel-ID
 const channelId = "UCxzx7sdLPG9XzxC-supGbiw";
-const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+const rssFeedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+const rss2jsonUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssFeedUrl)}`;
 
 const gallery = document.getElementById("video-gallery");
 const showMoreBtn = document.getElementById("show-more-btn");
@@ -124,12 +124,6 @@ const showMoreBtn = document.getElementById("show-more-btn");
 let videos = [];
 let visibleCount = 4;
 const showSteps = [4, 8, 13];
-
-function parseVideoId(link) {
-  // Link hat Format https://www.youtube.com/watch?v=VIDEOID
-  const url = new URL(link);
-  return url.searchParams.get("v");
-}
 
 function renderGallery() {
   gallery.innerHTML = "";
@@ -181,19 +175,15 @@ showMoreBtn.addEventListener("click", () => {
   }
 });
 
-// YouTube RSS über fetch laden + parsen (als XML)
-fetch(rssUrl)
-  .then(res => res.text())
-  .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+fetch(rss2jsonUrl)
+  .then(res => res.json())
   .then(data => {
-    const entries = data.querySelectorAll("entry");
-    videos = Array.from(entries).map(entry => {
-      const title = entry.querySelector("title").textContent;
-      const link = entry.querySelector("link").getAttribute("href");
-      const videoId = parseVideoId(link);
-      const thumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
-      return { title, url: link, thumb };
-    });
+    if(data.status !== 'ok') throw new Error('RSS Fehler');
+    videos = data.items.map(item => ({
+      title: item.title,
+      url: item.link,
+      thumb: item.thumbnail
+    }));
     renderGallery();
   })
   .catch(() => {
