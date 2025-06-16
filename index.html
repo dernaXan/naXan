@@ -1,169 +1,204 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>naXan – Neueste Videos</title>
-  <link rel="icon" type="image/png" href="/E65170CF-2C2A-4301-9911-A7C1D40005E0.png" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #121212;
-      color: #eee;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      padding: 20px;
-      background: #1f1f1f;
-    }
-    header img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      vertical-align: middle;
-      object-fit: cover;
-    }
-    header h1 {
-      display: inline-block;
-      margin-left: 15px;
-      vertical-align: middle;
-      font-weight: normal;
-      font-size: 2rem;
-    }
-    #banner {
-      width: 100%;
-      max-height: 180px;
-      object-fit: cover;
-      margin-bottom: 20px;
-    }
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      padding: 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-    .video {
-      width: 200px;
-      background: #222;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #000;
-      transition: transform 0.2s ease;
-    }
-    .video:hover {
-      transform: scale(1.05);
-    }
-    .video img {
-      width: 100%;
-      border-radius: 8px 8px 0 0;
-      cursor: pointer;
-      display: block;
-      object-fit: cover;
-    }
-    .video p {
-      margin: 8px 10px;
-      font-size: 14px;
-      color: #ddd;
-      text-align: left;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-    footer {
-      padding: 15px;
-      text-align: center;
-      font-size: 13px;
-      color: #777;
-      background: #1f1f1f;
-      margin-top: 40px;
-    }
-    a {
-      color: #1e90ff;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>naXan</title>
+<link rel="icon" href="E65170CF-2C2A-4301-9911-A7C1D40005E0.png" type="image/png" />
+<style>
+  body {
+    background: #111;
+    color: #ddd;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+  }
 
-    /* Responsive Design */
-    @media only screen and (max-width: 600px) {
-      body {
-        font-size: 14px;
-        padding: 10px;
-      }
-      .gallery {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .video {
-        width: 100%;
-      }
-    }
-  </style>
+  h1 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  #profile-pic {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 20px auto;
+    display: block;
+    box-shadow: 0 0 8px #e63946;
+  }
+
+  #gallery-container {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    text-align: left;
+  }
+
+  .gallery {
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.5s ease;
+  }
+
+  .video {
+    background: #222;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 8px #000;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .video img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    height: 120px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .video p {
+    margin: 8px 10px;
+    font-size: 14px;
+    color: #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .gallery.limited {
+    max-height: calc(3 * 135px + 40px);
+    position: relative;
+  }
+
+  .gallery.limited::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(transparent, #111);
+    pointer-events: none;
+  }
+
+  #show-more-btn {
+    display: block;
+    margin: 15px auto;
+    padding: 10px 20px;
+    background: #e63946;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  #show-more-btn:hover {
+    background: #d62828;
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <img src="E65170CF-2C2A-4301-9911-A7C1D40005E0.png" alt="Profilbild naXan" />
-  <h1>naXan</h1>
-</header>
+<h1>naXan Videos</h1>
+<img src="E65170CF-2C2A-4301-9911-A7C1D40005E0.png" alt="naXan Profilbild" id="profile-pic" />
 
-<img id="banner" src="https://yt3.googleusercontent.com/bYdClts3peiY_RNq_ejWyDZ7CdYZ1x0zOEDwnqKxWbJyvKc1PnKSqAB1NbBuTFmYvYMMPmFh=w1138-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj" alt="Kanalbanner naXan" />
-
-<h2>Neueste Videos</h2>
-
-<div class="gallery" id="video-gallery">
-  <!-- Videos werden hier eingefügt -->
+<div id="gallery-container">
+  <div class="gallery limited" id="video-gallery">
+    <p>Lade Videos...</p>
+  </div>
+  <button id="show-more-btn" style="display:none;">Mehr anzeigen</button>
 </div>
 
-<footer>
-  &copy; 2025 naXan – <a href="https://www.youtube.com/channel/UCxzx7sdLPG9XzxC-supGbiw" target="_blank" rel="noopener noreferrer">YouTube Kanal</a>
-</footer>
-
 <script>
-  const channelId = 'UCxzx7sdLPG9XzxC-supGbiw';
-  const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+// Channel-ID
+const channelId = "UCxzx7sdLPG9XzxC-supGbiw";
+const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
 
-  fetch(apiUrl)
-    .then(res => res.json())
-    .then(data => {
-      const gallery = document.getElementById('video-gallery');
-      data.items.forEach(item => {
-        // Robustes Herausfiltern der Video-ID
-        let videoId = '';
-        if (item.link.includes('v=')) {
-          videoId = item.link.split('v=')[1];
-          if(videoId.includes('&')) videoId = videoId.split('&')[0];
-        } else {
-          // Fallback: letzte URL-Komponente
-          const parts = item.link.split('/');
-          videoId = parts[parts.length - 1];
-        }
-        const title = item.title;
-        const thumb = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-        const videoUrl = item.link;
+const gallery = document.getElementById("video-gallery");
+const showMoreBtn = document.getElementById("show-more-btn");
 
-        const videoDiv = document.createElement('div');
-        videoDiv.className = 'video';
-        videoDiv.innerHTML = `
-          <a href="${videoUrl}" target="_blank" rel="noopener noreferrer">
-            <img src="${thumb}" alt="${title}" />
-            <p>${title}</p>
-          </a>
-        `;
-        gallery.appendChild(videoDiv);
-      });
-    })
-    .catch(err => {
-      console.error(err);
-      const gallery = document.getElementById('video-gallery');
-      gallery.innerHTML = '<p>Videos konnten nicht geladen werden.</p>';
+let videos = [];
+let visibleCount = 4;
+const showSteps = [4, 8, 13];
+
+function parseVideoId(link) {
+  // Link hat Format https://www.youtube.com/watch?v=VIDEOID
+  const url = new URL(link);
+  return url.searchParams.get("v");
+}
+
+function renderGallery() {
+  gallery.innerHTML = "";
+  const maxToShow = visibleCount > videos.length ? videos.length : visibleCount;
+
+  for (let i = 0; i < maxToShow; i++) {
+    const v = videos[i];
+    const videoDiv = document.createElement("div");
+    videoDiv.className = "video";
+
+    const a = document.createElement("a");
+    a.href = v.url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+
+    const img = document.createElement("img");
+    img.src = v.thumb;
+    img.alt = v.title;
+
+    a.appendChild(img);
+
+    const p = document.createElement("p");
+    p.textContent = v.title;
+
+    videoDiv.appendChild(a);
+    videoDiv.appendChild(p);
+
+    gallery.appendChild(videoDiv);
+  }
+
+  if (visibleCount < videos.length) {
+    gallery.classList.add("limited");
+    showMoreBtn.style.display = "block";
+  } else {
+    gallery.classList.remove("limited");
+    showMoreBtn.style.display = "none";
+  }
+}
+
+showMoreBtn.addEventListener("click", () => {
+  const nextIndex = showSteps.findIndex(x => x > visibleCount);
+  if (nextIndex !== -1) {
+    visibleCount = showSteps[nextIndex];
+    renderGallery();
+  } else {
+    visibleCount = videos.length;
+    renderGallery();
+    showMoreBtn.style.display = "none";
+  }
+});
+
+// YouTube RSS über fetch laden + parsen (als XML)
+fetch(rssUrl)
+  .then(res => res.text())
+  .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
+  .then(data => {
+    const entries = data.querySelectorAll("entry");
+    videos = Array.from(entries).map(entry => {
+      const title = entry.querySelector("title").textContent;
+      const link = entry.querySelector("link").getAttribute("href");
+      const videoId = parseVideoId(link);
+      const thumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+      return { title, url: link, thumb };
     });
+    renderGallery();
+  })
+  .catch(() => {
+    gallery.innerHTML = "<p>Fehler beim Laden der Videos.</p>";
+  });
 </script>
 
 </body>
