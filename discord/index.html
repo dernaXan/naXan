@@ -1,35 +1,129 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Discord Server</title>
-<link rel="icon" href=".../E65170CF-2C2A-4301-9911-A7C1D40005E0.png" type="image/png" />
-<style>
-  body {
-    background: #111;
-    color: #ddd;
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    text-align: center;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discord Server</title>
+  <link rel="icon" href=".../E65170CF-2C2A-4301-9911-A7C1D40005E0.png" type="image/png" />
+  <style>
+    body {
+      background: #111;
+      color: #ddd;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-  h1 {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
+    h1 {
+      margin-bottom: 20px;
+    }
 
-  #profile-pic {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin: 0 auto 20px auto;
-    display: block;
-    box-shadow: 0 0 8px #e63946;
-</style>
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    iframe {
+      border-radius: 8px;
+      box-shadow: 0 0 10px #444;
+    }
+
+    .chatbox {
+      background: #222;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px;
+      width: 300px;
+      height: 500px;
+      overflow-y: auto;
+      box-shadow: 0 0 10px #444;
+    }
+
+    .chatbox h3 {
+      margin-top: 0;
+      color: #e63946;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      text-align: left;
+    }
+
+    .author {
+      font-weight: bold;
+      color: #87cefa;
+    }
+
+    .content {
+      margin-left: 10px;
+      word-wrap: break-word;
+    }
+  </style>
 </head>
 <body>
-  <iframe src="https://discord.com/widget?id=1330606567208255560&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+  <h1>Unser Discord Server</h1>
+  <div class="container">
+    <iframe src="https://discord.com/widget?id=1330606567208255560&theme=dark"
+            width="350" height="500"
+            allowtransparency="true" frameborder="0"
+            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+    </iframe>
+
+    <div class="chatbox" id="chat">
+      <h3>💬 Chat</h3>
+      <div class="messages" id="chat-messages"></div>
+    </div>
+
+    <div class="chatbox" id="announcements">
+      <h3>📢 Ankündigungen</h3>
+      <div class="messages" id="announcements-messages"></div>
+    </div>
+
+    <div class="chatbox" id="teamfinder">
+      <h3>🧑‍🤝‍🧑 Team finden</h3>
+      <div class="messages" id="teamfinder-messages"></div>
+    </div>
+  </div>
+
+  <script>
+    const channels = {
+      "chat": 1330606567858507952,
+      "announcements": 1383072786909626508,
+      "teamfinder": 1330616003410923550,
+    };
+
+    async function fetchMessages(id, elementId) {
+      try {
+        const res = await fetch(`http://localhost:5000/messages/${id}`);
+        const data = await res.json();
+
+        const container = document.getElementById(elementId);
+        container.innerHTML = "";
+
+        data.forEach(msg => {
+          const div = document.createElement("div");
+          div.className = "message";
+          div.innerHTML = `<span class="author">${msg.author}</span><span class="content">: ${msg.content}</span>`;
+          container.appendChild(div);
+        });
+      } catch (e) {
+        console.error("Fehler beim Abrufen von Nachrichten:", e);
+      }
+    }
+
+    function updateAllMessages() {
+      fetchMessages(channels.chat, "chat-messages");
+      fetchMessages(channels.announcements, "announcements-messages");
+      fetchMessages(channels.teamfinder, "teamfinder-messages");
+    }
+
+    updateAllMessages();
+    setInterval(updateAllMessages, 2000);
+  </script>
 </body>
 </html>
