@@ -106,6 +106,8 @@
       throw new Error(`HTTP ${res.status}: ${errorText}`);
     }
 
+    console.log(`Antwort von /messages/${id}:`, res.text());
+    
     const data = await res.json();
 
     const container = document.getElementById(elementId);
