@@ -16,6 +16,7 @@
       align-items: center;
       height: 100vh;
       flex-direction: column;
+      overflow: hidden;
     }
 
     .button {
@@ -54,14 +55,31 @@
       height: 100%;
       border-radius: 12px;
     }
+
+    #loading {
+      display: none;
+      font-size: 32px;
+      color: white;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px 40px;
+      border-radius: 12px;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
   </style>
 </head>
 <body>
 
   <button class="button" id="play-button">Spielen</button>
+  <div id="loading">Lädt...</div>
 
   <div id="video-container">
-    <video id="rickroll" controls autoplay>
+    <video id="rickroll" preload="auto">
       <source src="Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp4" type="video/mp4">
       Dein Browser unterstützt das Video-Tag nicht.
     </video>
@@ -69,18 +87,23 @@
 
   <script>
     const button = document.getElementById('play-button');
+    const loading = document.getElementById('loading');
     const container = document.getElementById('video-container');
     const video = document.getElementById('rickroll');
 
-    // Optional: Video stumm vorladen im Hintergrund
-    video.preload = "auto";
-    video.muted = false;
-
     button.addEventListener('click', () => {
       button.style.display = 'none';
-      container.style.display = 'block';
-      video.play(); // Falls Autoplay geblockt wurde
+      loading.style.display = 'block';
     });
+
+    video.addEventListener('canplaythrough', () => {
+      loading.style.display = 'none';
+      container.style.display = 'block';
+      video.play();
+    });
+
+    // Damit preload wirklich passiert (z. B. bei Safari)
+    video.load();
   </script>
 
 </body>
