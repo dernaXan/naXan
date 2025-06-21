@@ -31,6 +31,7 @@
       box-shadow: 0 10px #cc8400;
       transition: transform 0.2s ease;
       margin-bottom: 20px;
+      z-index: 2;
     }
 
     .button:hover {
@@ -48,6 +49,7 @@
       max-width: 800px;
       aspect-ratio: 16 / 9;
       box-shadow: 0 0 20px #000;
+      z-index: 3;
     }
 
     video {
@@ -64,6 +66,7 @@
       padding: 20px 40px;
       border-radius: 12px;
       animation: pulse 1s infinite;
+      z-index: 2;
     }
 
     @keyframes pulse {
@@ -79,7 +82,7 @@
   <div id="loading">Lädt...</div>
 
   <div id="video-container">
-    <video id="rickroll" preload="auto">
+    <video id="rickroll" style="display: none;">
       <source src="Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp4" type="video/mp4">
       Dein Browser unterstützt das Video-Tag nicht.
     </video>
@@ -94,16 +97,15 @@
     button.addEventListener('click', () => {
       button.style.display = 'none';
       loading.style.display = 'block';
+      video.load(); // Startet Ladeprozess (wichtig für Mobilgeräte)
     });
 
-    video.addEventListener('canplaythrough', () => {
+    video.addEventListener('loadeddata', () => {
       loading.style.display = 'none';
       container.style.display = 'block';
+      video.style.display = 'block';
       video.play();
     });
-
-    // Damit preload wirklich passiert (z. B. bei Safari)
-    video.load();
   </script>
 
 </body>
