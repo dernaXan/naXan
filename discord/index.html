@@ -107,7 +107,7 @@
       }
       catch(e) {
         throw new Error('Caught error while fetching Messages: ${e}');
-    };
+    }
 
     if (!res.ok) {
       const errorText = await res.text();
