@@ -15,6 +15,7 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
+      flex-direction: column;
     }
 
     .button {
@@ -28,6 +29,7 @@
       text-shadow: 2px 2px #fff;
       box-shadow: 0 10px #cc8400;
       transition: transform 0.2s ease;
+      margin-bottom: 20px;
     }
 
     .button:hover {
@@ -43,7 +45,7 @@
       display: none;
       width: 80%;
       max-width: 800px;
-      aspect-ratio: 16/9;
+      aspect-ratio: 16 / 9;
       box-shadow: 0 0 20px #000;
     }
 
@@ -53,29 +55,34 @@
       border: none;
     }
 
-    /* Unsichtbarer Preload-Container */
     #preload {
       position: absolute;
       opacity: 0;
       pointer-events: none;
+      height: 0;
     }
   </style>
 </head>
 <body>
+
   <button class="button" id="play-button">Spielen</button>
 
-  <!-- Unsichtbar vorgeladenes Video -->
-  <div id="preload">
-    <iframe id="preload-frame"
-      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1"
-      allow="autoplay"
-    ></iframe>
-  </div>
-
-  <!-- Sichtbares Video nach Klick -->
+  <!-- Sichtbares Video (zuerst ausgeblendet) -->
   <div id="video-container">
     <iframe
-      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+      src=""
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+  </div>
+
+  <!-- Vorgeladenes unsichtbares Video -->
+  <div id="preload">
+    <iframe
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&mute=1"
       allow="autoplay"
     ></iframe>
   </div>
@@ -83,17 +90,16 @@
   <script>
     const button = document.getElementById('play-button');
     const videoContainer = document.getElementById('video-container');
-    const preloadFrame = document.getElementById('preload-frame');
+    const visibleFrame = videoContainer.querySelector('iframe');
 
-    // Wenn der Button geklickt wird
     button.addEventListener('click', () => {
       button.style.display = 'none';
       videoContainer.style.display = 'block';
 
-      // Trick: Neuen src setzen, um Ton zu aktivieren
-      const newSrc = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
-      videoContainer.querySelector('iframe').src = newSrc;
+      // Aktiviert das eigentliche Video mit Ton und ohne Steuerung
+      visibleFrame.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&autoplay=1&si=zPxpQ0mCSmi5Okcv";
     });
   </script>
+
 </body>
 </html>
