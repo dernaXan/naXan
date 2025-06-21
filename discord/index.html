@@ -63,10 +63,33 @@
       margin-left: 10px;
       word-wrap: break-word;
     }
+    .dcbtn {
+  background: linear-gradient(135deg, #e63946, #d62828);
+  border: none;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(230, 57, 70, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dcbtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(230, 57, 70, 0.6);
+}
+
+.dcbtn:active {
+  transform: scale(0.98);
+  box-shadow: 0 3px 8px rgba(230, 57, 70, 0.3);
+}
   </style>
 </head>
 <body>
   <h1>Unser Discord Server</h1>
+  <input type="button" class="dcbtn">
   <div class="container">
     <iframe src="https://discord.com/widget?id=1330606567208255560&theme=dark"
             width="350" height="500"
@@ -89,6 +112,7 @@
       <div class="messages" id="teamfinder-messages"></div>
     </div>
   </div>
+</input>
 
   <script>
     const channels = {
