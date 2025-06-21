@@ -98,25 +98,20 @@
     };
 
     async function fetchMessages(id, elementId) {
-      try {
-        const res = await fetch(`https://ladybird-hopeful-shark.ngrok-free.app/messages/${id}`, {
-          headers: {
-            'ngrok-skip-browser-warning': 'true'
-          }
-        })
+  try {
+    const res = await fetch(`https://ladybird-hopeful-shark.ngrok-free.app/messages/${id}`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
       }
-      catch(e) {
-        throw new Error('Caught error while fetching Messages: ${e}');
-    }
+    });
 
     if (!res.ok) {
       const errorText = await res.text();
       throw new Error(`HTTP ${res.status}: ${errorText}`);
     }
 
-    console.log(`Antwort von /messages/${id}:`, res.text());
-    
     const data = await res.json();
+    console.log(`Antwort von /messages/${id}:`, data);
 
     const container = document.getElementById(elementId);
     container.innerHTML = "";
@@ -133,6 +128,7 @@
     if (container) container.innerHTML = `<div class="error">⚠️ Fehler beim Laden der Nachrichten.</div>`;
   }
 }
+
 
     function updateAllMessages() {
       fetchMessages(channels.chat, "chat-messages");
