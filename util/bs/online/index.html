@@ -110,6 +110,12 @@
     button.addEventListener('click', () => {
       button.style.display = 'none';
       loading.style.display = 'block';
+      
+      gtag('event', 'rickroll', {
+        event_category: 'BS-QR',
+        event_label: 'Spielen-Button'
+      });
+
 
       // Dynamisch Video erstellen
       const video = document.createElement('video');
