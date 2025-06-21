@@ -105,6 +105,19 @@
       video.addEventListener('loadeddata', () => {
         loading.style.display = 'none';
         container.style.display = 'block';
+
+        try {
+      if (video.requestFullscreen) {
+        await video.requestFullscreen();
+      } else if (video.webkitRequestFullscreen) { // Safari
+        await video.webkitRequestFullscreen();
+      } else if (video.msRequestFullscreen) { // IE/Edge
+        await video.msRequestFullscreen();
+      }
+    } catch (err) {
+      console.warn('Fullscreen konnte nicht aktiviert werden:', err);
+    }
+        
         video.play();
       });
 
