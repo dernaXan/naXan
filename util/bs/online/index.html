@@ -1,98 +1,81 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Brawl Stars Spielen</title>
+  <meta charset="UTF-8">
+  <title>Rickroll Brawl Stars Style</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: url('https://cdn.cloudflare.steamstatic.com/steam/apps/1466710/ss_87831837d46c61888e45315898313a839cf34bb6.1920x1080.jpg') no-repeat center center fixed;
+      background-image: url('brawlstars-hintergrund.jpg'); /* Ersetze durch echten Brawl-Hintergrund */
       background-size: cover;
-      font-family: 'Comic Sans MS', sans-serif;
+      background-position: center;
+      font-family: sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      flex-direction: column;
-      overflow: hidden;
+      color: white;
     }
 
-    .button {
-      background: #ffd700;
-      border: 5px solid #ff9900;
-      border-radius: 20px;
+    #button {
+      padding: 20px 40px;
+      font-size: 36px;
+      border: none;
+      border-radius: 12px;
+      background-color: #ffcc00;
       color: #000;
-      font-size: 48px;
-      padding: 30px 60px;
       cursor: pointer;
-      text-shadow: 2px 2px #fff;
-      box-shadow: 0 10px #cc8400;
-      transition: transform 0.2s ease;
-      margin-bottom: 20px;
       z-index: 2;
-    }
-
-    .button:hover {
-      transform: scale(1.05);
-    }
-
-    .button:active {
-      box-shadow: 0 5px #cc8400;
-      transform: translateY(5px);
-    }
-
-    #video-container {
-      display: none;
-      width: 80%;
-      max-width: 800px;
-      aspect-ratio: 16 / 9;
-      box-shadow: 0 0 20px #000;
-      z-index: 3;
     }
 
     #loading {
       display: none;
-      font-size: 32px;
-      color: white;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 20px 40px;
-      border-radius: 12px;
-      animation: pulse 1s infinite;
-      z-index: 2;
+      font-size: 28px;
+      animation: blink 1s infinite;
     }
 
-    @keyframes pulse {
-      0% { opacity: 0.5; }
-      50% { opacity: 1; }
-      100% { opacity: 0.5; }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    #container {
+      display: none;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 </head>
 <body>
-
-  <button class="button" id="play-button">Spielen</button>
-  <div id="loading">Lädt...</div>
-  <div id="video-container"></div>
+  <div id="main">
+    <button id="button">Spielen</button>
+    <div id="loading">Lädt...</div>
+  </div>
+  <div id="container"></div>
 
   <script>
-    const button = document.getElementById('play-button');
+    const button = document.getElementById('button');
     const loading = document.getElementById('loading');
-    const container = document.getElementById('video-container');
+    const container = document.getElementById('container');
 
-    button.addEventListener('click', async () => {
+    button.addEventListener('click', () => {
       button.style.display = 'none';
       loading.style.display = 'block';
 
-      // Dynamisch Video erstellen
       const video = document.createElement('video');
-      video.setAttribute('controls', ''); // optional: controls anzeigen
+      video.setAttribute('controls', '');
       video.setAttribute('autoplay', '');
-      video.setAttribute('playsinline', ''); // wichtig für iOS
+      video.setAttribute('playsinline', '');
+      video.setAttribute('muted', ''); // Optional: Autoplay-Support
       video.style.width = '100%';
       video.style.height = '100%';
-      video.style.borderRadius = '12px';
 
       const source = document.createElement('source');
       source.setAttribute('src', 'Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp4');
@@ -101,30 +84,26 @@
       video.appendChild(source);
       container.appendChild(video);
 
-      // Warten bis genug Daten geladen sind
       video.addEventListener('loadeddata', () => {
         loading.style.display = 'none';
         container.style.display = 'block';
 
-        try {
-      if (video.requestFullscreen) {
-        await video.requestFullscreen();
-      } else if (video.webkitRequestFullscreen) { // Safari
-        await video.webkitRequestFullscreen();
-      } else if (video.msRequestFullscreen) { // IE/Edge
-        await video.msRequestFullscreen();
-      }
-    } catch (err) {
-      console.warn('Fullscreen konnte nicht aktiviert werden:', err);
-    }
-        
+        // ⬇ Fullscreen erst hier und ohne await
+        if (video.requestFullscreen) {
+          video.requestFullscreen().catch(err => {
+            console.warn('Fullscreen nicht möglich:', err);
+          });
+        } else if (video.webkitRequestFullscreen) {
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) {
+          video.msRequestFullscreen();
+        }
+
         video.play();
       });
 
-      // Notfalls: Video laden auslösen
       video.load();
     });
   </script>
-
 </body>
 </html>
