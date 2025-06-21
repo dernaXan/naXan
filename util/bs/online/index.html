@@ -68,6 +68,23 @@
       50% { opacity: 1; }
       100% { opacity: 0.5; }
     }
+
+    #rickroll-text {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 48px;
+  color: #fff;
+  text-shadow: 2px 2px 10px #000;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px 40px;
+  border-radius: 12px;
+  opacity: 0;
+  z-index: 10;
+  transition: opacity 0.8s ease;
+}
+
   </style>
 </head>
 <body>
@@ -75,6 +92,8 @@
   <button class="button" id="play-button">Spielen</button>
   <div id="loading">Lädt...</div>
   <div id="video-container"></div>
+  <div id="rickroll-text">Du wurdest gerickrollt 😎</div>
+
 
   <script>
     const button = document.getElementById('play-button');
@@ -106,6 +125,14 @@
         loading.style.display = 'none';
         container.style.display = 'block';
         video.play();
+        const rickrollText = document.getElementById('rickroll-text');
+        rickrollText.style.opacity = '1';
+
+        // Nach 4 Sekunden wieder ausblenden
+        setTimeout(() => {
+          rickrollText.style.opacity = '0';
+        }, 4000);
+
       });
 
       // Notfalls: Video laden auslösen
