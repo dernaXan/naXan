@@ -49,17 +49,10 @@
       box-shadow: 0 0 20px #000;
     }
 
-    iframe {
+    video {
       width: 100%;
       height: 100%;
-      border: none;
-    }
-
-    #preload {
-      position: absolute;
-      opacity: 0;
-      pointer-events: none;
-      height: 0;
+      border-radius: 12px;
     }
   </style>
 </head>
@@ -67,37 +60,26 @@
 
   <button class="button" id="play-button">Spielen</button>
 
-  <!-- Sichtbares Video (zuerst ausgeblendet) -->
   <div id="video-container">
-    <iframe
-      src=""
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
-      referrerpolicy="strict-origin-when-cross-origin">
-    </iframe>
-  </div>
-
-  <!-- Vorgeladenes unsichtbares Video -->
-  <div id="preload">
-    <iframe
-      src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&mute=1"
-      allow="autoplay"
-    ></iframe>
+    <video id="rickroll" controls autoplay>
+      <source src="Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp4" type="video/mp4">
+      Dein Browser unterstützt das Video-Tag nicht.
+    </video>
   </div>
 
   <script>
     const button = document.getElementById('play-button');
-    const videoContainer = document.getElementById('video-container');
-    const visibleFrame = videoContainer.querySelector('iframe');
+    const container = document.getElementById('video-container');
+    const video = document.getElementById('rickroll');
+
+    // Optional: Video stumm vorladen im Hintergrund
+    video.preload = "auto";
+    video.muted = false;
 
     button.addEventListener('click', () => {
       button.style.display = 'none';
-      videoContainer.style.display = 'block';
-
-      // Aktiviert das eigentliche Video mit Ton und ohne Steuerung
-      visibleFrame.src = "https://www.youtube.com/embed/dQw4w9WgXcQ?controls=0&autoplay=1&si=zPxpQ0mCSmi5Okcv";
+      container.style.display = 'block';
+      video.play(); // Falls Autoplay geblockt wurde
     });
   </script>
 
