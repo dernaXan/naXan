@@ -50,6 +50,7 @@
       aspect-ratio: 16 / 9;
       box-shadow: 0 0 20px #000;
       z-index: 3;
+      margin-top: 60px;
     }
 
     #loading {
@@ -71,19 +72,25 @@
 
     #rickroll-text {
   position: absolute;
-  top: 10%;
+  top: 10vh; /* passt sich der Bildschirmhöhe an */
   left: 50%;
   transform: translateX(-50%);
-  font-size: 48px;
+  max-width: 90vw;
+  font-size: clamp(1.5rem, 4vw, 3rem); /* responsive Textgröße */
   color: #fff;
+  text-align: center;
   text-shadow: 2px 2px 10px #000;
   background: rgba(0, 0, 0, 0.6);
-  padding: 20px 40px;
+  padding: 15px 25px;
   border-radius: 12px;
   opacity: 0;
   z-index: 10;
   transition: opacity 0.8s ease;
+  line-height: 1.2;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
+
 
   </style>
 </head>
