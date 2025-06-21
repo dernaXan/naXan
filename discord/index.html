@@ -98,11 +98,12 @@
     };
 
     async function fetchMessages(id, elementId) {
-  try {
-    const res = await fetch(`https://ladybird-hopeful-shark.ngrok-free.app/messages/${id}`){
-      headers: {
-        ngrok-skip-browser-warning': 'true'
-      }
+      try {
+      const res = await fetch(`https://ladybird-hopeful-shark.ngrok-free.app/messages/${id}`, {
+        headers: {
+          ngrok-skip-browser-warning': 'true'
+        }
+      })
     };
 
     if (!res.ok) {
