@@ -52,12 +52,6 @@
       z-index: 3;
     }
 
-    video {
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
-    }
-
     #loading {
       display: none;
       font-size: 32px;
@@ -80,31 +74,42 @@
 
   <button class="button" id="play-button">Spielen</button>
   <div id="loading">Lädt...</div>
-
-  <div id="video-container">
-    <video id="rickroll" style="display: none;">
-      <source src="Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp4" type="video/mp4">
-      Dein Browser unterstützt das Video-Tag nicht.
-    </video>
-  </div>
+  <div id="video-container"></div>
 
   <script>
     const button = document.getElementById('play-button');
     const loading = document.getElementById('loading');
     const container = document.getElementById('video-container');
-    const video = document.getElementById('rickroll');
 
     button.addEventListener('click', () => {
       button.style.display = 'none';
       loading.style.display = 'block';
-      video.load(); // Startet Ladeprozess (wichtig für Mobilgeräte)
-    });
 
-    video.addEventListener('loadeddata', () => {
-      loading.style.display = 'none';
-      container.style.display = 'block';
-      video.style.display = 'block';
-      video.play();
+      // Dynamisch Video erstellen
+      const video = document.createElement('video');
+      video.setAttribute('controls', ''); // optional: controls anzeigen
+      video.setAttribute('autoplay', '');
+      video.setAttribute('playsinline', ''); // wichtig für iOS
+      video.style.width = '100%';
+      video.style.height = '100%';
+      video.style.borderRadius = '12px';
+
+      const source = document.createElement('source');
+      source.setAttribute('src', 'Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster).mp4');
+      source.setAttribute('type', 'video/mp4');
+
+      video.appendChild(source);
+      container.appendChild(video);
+
+      // Warten bis genug Daten geladen sind
+      video.addEventListener('loadeddata', () => {
+        loading.style.display = 'none';
+        container.style.display = 'block';
+        video.play();
+      });
+
+      // Notfalls: Video laden auslösen
+      video.load();
     });
   </script>
 
