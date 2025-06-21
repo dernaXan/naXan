@@ -99,12 +99,15 @@
 
     async function fetchMessages(id, elementId) {
       try {
-      const res = await fetch(`https://ladybird-hopeful-shark.ngrok-free.app/messages/${id}`, {
-        headers: {
-          'ngrok-skip-browser-warning': 'true'
-        }
-      })
-    };
+        const res = await fetch(`https://ladybird-hopeful-shark.ngrok-free.app/messages/${id}`, {
+          headers: {
+            'ngrok-skip-browser-warning': 'true'
+          }
+        })
+      };
+      catch(e) {
+        throw new Error('Caught error while fetching Messages: ${e}');
+    }
 
     if (!res.ok) {
       const errorText = await res.text();
