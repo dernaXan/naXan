@@ -28,8 +28,6 @@
       text-shadow: 2px 2px #fff;
       box-shadow: 0 10px #cc8400;
       transition: transform 0.2s ease;
-      text-decoration: none;
-      display: inline-block;
     }
 
     .button:hover {
@@ -40,11 +38,62 @@
       box-shadow: 0 5px #cc8400;
       transform: translateY(5px);
     }
+
+    #video-container {
+      display: none;
+      width: 80%;
+      max-width: 800px;
+      aspect-ratio: 16/9;
+      box-shadow: 0 0 20px #000;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Unsichtbarer Preload-Container */
+    #preload {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
-  <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="button" target="_blank">
-    Spielen
-  </a>
+  <button class="button" id="play-button">Spielen</button>
+
+  <!-- Unsichtbar vorgeladenes Video -->
+  <div id="preload">
+    <iframe id="preload-frame"
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1"
+      allow="autoplay"
+    ></iframe>
+  </div>
+
+  <!-- Sichtbares Video nach Klick -->
+  <div id="video-container">
+    <iframe
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+      allow="autoplay"
+    ></iframe>
+  </div>
+
+  <script>
+    const button = document.getElementById('play-button');
+    const videoContainer = document.getElementById('video-container');
+    const preloadFrame = document.getElementById('preload-frame');
+
+    // Wenn der Button geklickt wird
+    button.addEventListener('click', () => {
+      button.style.display = 'none';
+      videoContainer.style.display = 'block';
+
+      // Trick: Neuen src setzen, um Ton zu aktivieren
+      const newSrc = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+      videoContainer.querySelector('iframe').src = newSrc;
+    });
+  </script>
 </body>
 </html>
