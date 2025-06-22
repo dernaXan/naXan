@@ -100,7 +100,50 @@
   overflow-wrap: break-word;
 }
 
+.navbar {
+      background: #222;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px #000;
+      position: relative;
+      text-align: right;
+    }
 
+    .menu-toggle {
+      font-size: 24px;
+      color: #e63946;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .menu {
+      list-style: none;
+      padding: 10px 0 0;
+      margin: 0;
+      display: none;
+      position: absolute;
+      right: 20px;
+      background: #111;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px #000;
+      z-index: 999;
+    }
+
+    .menu li {
+      padding: 10px 20px;
+    }
+
+    .menu li a {
+      color: #e63946;
+      text-decoration: none;
+      font-weight: bold;
+      display: block;
+    }
+
+    .menu li a:hover {
+      color: #fff;
+      background: #e63946;
+      border-radius: 4px;
+    }
   </style>
 </head>
 <body>
