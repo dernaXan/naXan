@@ -29,19 +29,6 @@
     box-shadow: 0 0 8px #e63946;
   }
 
-  #gallery-container {
-    max-width: 600px;
-    margin: 0 auto;
-    position: relative;
-    text-align: left;
-  }
-
-  .gallery {
-    overflow: hidden;
-    position: relative;
-    transition: max-height 0.5s ease;
-  }
-
   .video {
     background: #222;
     border-radius: 8px;
@@ -68,22 +55,6 @@
     text-overflow: ellipsis;
   }
 
-  .gallery.limited {
-    max-height: calc(3 * 135px + 40px);
-    position: relative;
-  }
-
-  .gallery.limited::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: linear-gradient(transparent, #111);
-    pointer-events: none;
-  }
-
   #show-more-btn {
     display: block;
     margin: 15px auto;
@@ -99,7 +70,101 @@
   #show-more-btn:hover {
     background: #d62828;
   }
-</style>
+  .navbar {
+      background: #222;
+      padding: 10px 20px;
+      box-shadow: 0 2px 4px #000;
+      position: relative;
+      text-align: right;
+    }
+
+    .menu-toggle {
+      font-size: 24px;
+      color: #e63946;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .menu {
+      list-style: none;
+      padding: 10px 0 0;
+      margin: 0;
+      display: none;
+      position: absolute;
+      right: 20px;
+      background: #111;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px #000;
+      z-index: 999;
+    }
+
+    .menu li {
+      padding: 10px 20px;
+    }
+
+    .menu li a {
+      color: #e63946;
+      text-decoration: none;
+      font-weight: bold;
+      display: block;
+    }
+
+    .menu li a:hover {
+      color: #fff;
+      background: #e63946;
+      border-radius: 4px;
+    }
+
+    .gallery.limited {
+      max-height: calc(3 * 135px + 40px);
+      position: relative;
+    }
+
+    .gallery.limited::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(transparent, #111);
+      pointer-events: none;
+    }
+
+    #gallery-container {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      text-align: left;
+    }
+
+    .gallery {
+      overflow: hidden;
+      position: relative;
+      transition: max-height 0.5s ease;
+    }
+  </style>
+
+  <?php
+    ob_start(); // Output zwischenspeichern
+    echo '<script>document.addEventListener("DOMContentLoaded",function(){';
+    echo 'const nav=`<div class="menu-toggle" onclick="toggleMenu()">☰</div><ul class="menu" id="menu">';
+
+    foreach (scandir(__DIR__) as $dir) {
+      if ($dir === '.' || $dir === '..' || $dir === 'util') continue;
+      if (is_dir($dir) && (file_exists("$dir/index.html") || file_exists("$dir/index.php"))) {
+        $label = ucfirst($dir);
+        $path = htmlspecialchars($dir);
+        echo "<li><a href='/$path/'>$label</a></li>";
+      }
+    }
+
+    echo '</ul>`;document.querySelector("nav").innerHTML=nav;';
+    echo '});';
+    echo 'function toggleMenu(){const m=document.getElementById("menu");m.style.display=m.style.display==="block"?"none":"block";}';
+    echo '</script>';
+    ob_end_flush();
+  ?>
 </head>
 <body>
 <nav style="background: #222; padding: 10px 0; box-shadow: 0 2px 4px #000;">
@@ -113,12 +178,8 @@
 <h1>naXan Videos</h1>
 <img src="E65170CF-2C2A-4301-9911-A7C1D40005E0.png" alt="naXan Profilbild" id="profile-pic" />
 
-<div id="gallery-container">
-  <div class="gallery limited" id="video-gallery">
-    <p>Lade Videos...</p>
-  </div>
-  <button id="show-more-btn" style="display:none;">Mehr anzeigen</button>
-</div>
+<nav class="navbar"></nav>
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-1TZHYNSXDP"></script>
 <script>
