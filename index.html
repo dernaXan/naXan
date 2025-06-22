@@ -145,26 +145,30 @@
     }
   </style>
 
-  <?php
-    ob_start(); // Output zwischenspeichern
-    echo '<script>document.addEventListener("DOMContentLoaded",function(){';
-    echo 'const nav=`<div class="menu-toggle" onclick="toggleMenu()">☰</div><ul class="menu" id="menu">';
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuItems = {
+      "Home": "/naXan/",
+      "Discord": "discord/",
+      // Hier kannst du beliebig viele Seiten ergänzen
+    };
 
-    foreach (scandir(__DIR__) as $dir) {
-      if ($dir === '.' || $dir === '..' || $dir === 'util') continue;
-      if (is_dir($dir) && (file_exists("$dir/index.html") || file_exists("$dir/index.php"))) {
-        $label = ucfirst($dir);
-        $path = htmlspecialchars($dir);
-        echo "<li><a href='/$path/'>$label</a></li>";
-      }
+    let navHTML = `<div class="menu-toggle" onclick="toggleMenu()">☰</div><ul class="menu" id="menu">`;
+
+    for (const [label, link] of Object.entries(menuItems)) {
+      navHTML += `<li><a href="${link}">${label}</a></li>`;
     }
 
-    echo '</ul>`;document.querySelector("nav").innerHTML=nav;';
-    echo '});';
-    echo 'function toggleMenu(){const m=document.getElementById("menu");m.style.display=m.style.display==="block"?"none":"block";}';
-    echo '</script>';
-    ob_end_flush();
-  ?>
+    navHTML += `</ul>`;
+    document.querySelector(".navbar").innerHTML = navHTML;
+  });
+
+  function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+</script>
+
 </head>
 <body>
 <nav style="background: #222; padding: 10px 0; box-shadow: 0 2px 4px #000;">
