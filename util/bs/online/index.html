@@ -145,6 +145,29 @@
       border-radius: 4px;
     }
   </style>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuItems = {
+      "Home": "/naXan/",
+      "Discord": "discord/",
+      // Hier kannst du beliebig viele Seiten ergänzen
+    };
+
+    let navHTML = `<div class="menu-toggle" onclick="toggleMenu()">☰</div><ul class="menu" id="menu">`;
+
+    for (const [label, link] of Object.entries(menuItems)) {
+      navHTML += `<li><a href="${link}">${label}</a></li>`;
+    }
+
+    navHTML += `</ul>`;
+    document.querySelector(".navbar").innerHTML = navHTML;
+  });
+
+  function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+</script>
 </head>
 <body>
 
