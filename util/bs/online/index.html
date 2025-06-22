@@ -145,38 +145,8 @@
       border-radius: 4px;
     }
   </style>
-  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const menuItems = {
-      "Home": "/naXan/",
-      "Discord": "discord/",
-      // Hier kannst du beliebig viele Seiten ergänzen
-    };
-
-    let navHTML = `<div class="menu-toggle" onclick="toggleMenu()">☰</div><ul class="menu" id="menu">`;
-
-    for (const [label, link] of Object.entries(menuItems)) {
-      navHTML += `<li><a href="${link}">${label}</a></li>`;
-    }
-
-    navHTML += `</ul>`;
-    document.querySelector(".navbar").innerHTML = navHTML;
-  });
-
-  function toggleMenu() {
-    const menu = document.getElementById("menu");
-    menu.style.display = menu.style.display === "block" ? "none" : "block";
-  }
-</script>
 </head>
 <body>
-  <nav style="background: #222; padding: 10px 0; box-shadow: 0 2px 4px #000;">
-  <ul style="list-style: none; display: flex; justify-content: center; margin: 0; padding: 0;">
-    <li style="margin: 0 15px;">
-      <a href="discord/" style="color: #e63946; text-decoration: none; font-weight: bold; font-size: 16px;">Discord</a>
-    </li>
-  </ul>
-</nav>
   <button class="button" id="play-button">Spielen</button>
   <div id="loading">Lädt...</div>
   <div id="video-container"></div>
